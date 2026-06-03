@@ -10,9 +10,7 @@ export default function TodoList({
   const filteredTodoList = useMemo(() => {
     return {
       version: dataVersion,
-      todos: todoList.filter(
-        (todo) => !todo.isCompleted
-      ),
+      todos: todoList.filter((todo) => !todo.isCompleted),
     };
   }, [todoList, dataVersion]);
 
