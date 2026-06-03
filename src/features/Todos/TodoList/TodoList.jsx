@@ -18,6 +18,10 @@ export default function TodoList({
     return <p>Add a todo above to get started</p>;
   }
 
+  if (filteredTodoList.todos.length === 0) {
+    return <p>Add a todo above to get started</p>;
+  }
+
   return (
     <ul>
       {filteredTodoList.todos.map((todo) => (
