@@ -10,11 +10,13 @@ export default function TodoList({
   const filteredTodoList = useMemo(() => {
     return {
       version: dataVersion,
-      todos: todoList.filter(
-        (todo) => !todo.isCompleted
-      ),
+      todos: todoList.filter((todo) => !todo.isCompleted),
     };
   }, [todoList, dataVersion]);
+
+  if (filteredTodoList.todos.length === 0) {
+    return <p>Add a todo above to get started</p>;
+  }
 
   if (filteredTodoList.todos.length === 0) {
     return <p>Add a todo above to get started</p>;
