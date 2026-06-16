@@ -61,8 +61,8 @@ nav {
   justify-content: center;
   gap: 12px;
   flex-wrap: wrap;
-  width: fit-content;
-  max-width: 100%;
+  width: 100%;
+  max-width: 920px;
   margin: 0 auto 28px;
   padding: 12px;
   border-radius: 28px;
@@ -263,10 +263,10 @@ input[type="checkbox"] {
   }
 
   nav a {
-    flex: 1 1 90px;
-    min-width: 0;
-    padding: 16px 10px;
-  }
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 16px 10px;
+}
 
   form {
     flex-direction: column;
