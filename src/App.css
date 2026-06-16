@@ -30,8 +30,7 @@ header,
 main,
 section {
   width: min(100%, 920px);
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
 }
 
 h1 {
@@ -57,12 +56,10 @@ header {
 }
 
 nav {
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
-  flex-wrap: wrap;
   width: 100%;
-  max-width: 920px;
   margin: 0 auto 28px;
   padding: 12px;
   border-radius: 28px;
@@ -74,27 +71,30 @@ nav {
   backdrop-filter: blur(18px);
 }
 
-nav a,
-a {
+nav a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 54px;
+  padding: 12px 10px;
   color: #e0f2fe;
   text-decoration: none;
+  text-align: center;
+  font-weight: 800;
   border-radius: 18px;
+  background: rgba(15, 23, 42, 0.58);
+  border: 1px solid rgba(148, 163, 184, 0.18);
   transition: background 0.2s ease, transform 0.2s ease;
 }
 
-nav a {
-  min-width: 112px;
-  padding: 18px 22px;
-  text-align: center;
-  font-weight: 800;
-  background: rgba(15, 23, 42, 0.58);
-  border: 1px solid rgba(148, 163, 184, 0.18);
-}
-
-nav a:hover,
-a:hover {
+nav a:hover {
   background: rgba(56, 189, 248, 0.14);
   transform: translateY(-1px);
+}
+
+a {
+  color: #e0f2fe;
 }
 
 p {
@@ -156,15 +156,10 @@ textarea {
   color: #f8fafc;
   font-size: 1rem;
   outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 input {
   min-width: 0;
-}
-
-select {
-  appearance: auto;
 }
 
 input::placeholder {
@@ -188,26 +183,20 @@ button {
   font-weight: 900;
   cursor: pointer;
   box-shadow: 0 12px 30px rgba(37, 99, 235, 0.35);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+form button {
+  flex-shrink: 0;
 }
 
 button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 18px 42px rgba(37, 99, 235, 0.45);
-}
-
-button:active {
-  transform: translateY(0);
 }
 
 button:disabled {
   opacity: 0.55;
   cursor: not-allowed;
   transform: none;
-}
-
-form button {
-  flex-shrink: 0;
 }
 
 ul {
@@ -226,12 +215,6 @@ li {
   border-radius: 20px;
   background: linear-gradient(135deg, rgba(30, 41, 59, 0.96), rgba(15, 23, 42, 0.96));
   border: 1px solid rgba(148, 163, 184, 0.18);
-  transition: border-color 0.2s ease, transform 0.2s ease;
-}
-
-li:hover {
-  border-color: rgba(56, 189, 248, 0.45);
-  transform: translateY(-1px);
 }
 
 input[type="checkbox"] {
@@ -251,32 +234,30 @@ input[type="checkbox"] {
   border: 1px solid rgba(248, 113, 113, 0.35);
 }
 
-@media (max-width: 640px) {
+@media (max-width: 480px) {
   #root {
     padding: 22px 10px;
   }
 
   nav {
-    width: 100%;
-    gap: 10px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     border-radius: 24px;
   }
 
   nav a {
-  flex: 1 1 0;
-  min-width: 0;
-  padding: 16px 10px;
-}
+    min-height: 52px;
+    padding: 12px 8px;
+  }
+
+  nav a:nth-child(3) {
+    grid-column: 1 / -1;
+  }
 
   form {
     flex-direction: column;
     align-items: stretch;
     gap: 12px;
     border-radius: 22px;
-  }
-
-  form label {
-    margin-bottom: 0;
   }
 
   button,
@@ -293,19 +274,5 @@ input[type="checkbox"] {
     flex-direction: column;
     align-items: stretch;
     text-align: center;
-  }
-}
-
-@media (max-width: 380px) {
-  nav {
-    flex-direction: column;
-  }
-
-  nav a {
-    width: 100%;
-  }
-
-  h1 {
-    font-size: 2.2rem;
   }
 }
