@@ -1,4 +1,6 @@
 import { useAuth } from '../contexts/AuthContext.jsx';
+import Logoff from '../features/Logoff.jsx';
+import Navigation from './Navigation.jsx';
 
 export default function Header() {
   const { email, isAuthenticated } = useAuth();
@@ -7,7 +9,14 @@ export default function Header() {
     <header>
       <h1>Todo List</h1>
 
-      {isAuthenticated && <p>Logged in as {email}</p>}
+      <Navigation />
+
+      {isAuthenticated && (
+        <>
+          <p>Logged in as {email}</p>
+          <Logoff />
+        </>
+      )}
     </header>
   );
 }
