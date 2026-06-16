@@ -47,8 +47,7 @@ export default function TodosPage() {
       const paramsObject = {
         sortBy,
         sortDirection,
-        isCompleted: false,
-      };
+          };
 
       if (debouncedFilterTerm) {
         paramsObject.find = debouncedFilterTerm;
