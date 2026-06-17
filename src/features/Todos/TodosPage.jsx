@@ -218,8 +218,7 @@ export default function TodosPage() {
       body: JSON.stringify({
         title: updatedTodo.title,
         isCompleted: updatedTodo.isCompleted,
-        createdAt: originalTodo.createdAt,
-      }),
+}),
     });
 
     if (!response.ok) {
