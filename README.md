@@ -70,10 +70,11 @@ npm run preview
 * Client-side validation for better user experience
 * Sanitized user input for improved security
 
+
 ## Future Improvements
 
-* Dark/Light theme toggle
-* Task categories
-* Due dates
-* Drag and drop task organization
-* User profiles
+- Add unit tests for critical components
+- Implement Progressive Web App (PWA) features
+- Add a dark/light theme toggle
+- Improve task persistence with localStorage or backend API enhancements
+- Add drag-and-drop functionality for reordering todos
