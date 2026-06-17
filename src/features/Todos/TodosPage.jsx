@@ -209,7 +209,7 @@ export default function TodosPage() {
 
   try {
     const response = await fetch(`/api/tasks/${editedTodo.id}`, {
-      method: 'PUT',
+      method: method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
         'X-CSRF-TOKEN': token,
