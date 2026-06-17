@@ -1,12 +1,14 @@
 import { useCallback, useEffect, useReducer } from 'react';
 import { useSearchParams } from 'react-router';
+
 import TodoForm from './TodoForm.jsx';
 import TodoList from './TodoList/TodoList.jsx';
 import SortBy from '../../shared/SortBy.jsx';
 import FilterInput from '../../shared/FilterInput.jsx';
+import StatusFilter from '../../shared/StatusFilter.jsx';
+
 import useDebounce from '../../utils/useDebounce.js';
 import { useAuth } from '../../contexts/AuthContext.jsx';
-import StatusFilter from '../../shared/StatusFilter.jsx';
 
 import {
   todoReducer,
@@ -18,10 +20,8 @@ export default function TodosPage() {
   const { token } = useAuth();
   const [searchParams] = useSearchParams();
   const statusFilter = searchParams.get('status') || 'all';
-  const [state, dispatch] = useReducer(
-    todoReducer,
-    initialTodoState
-  );
+
+  const [state, dispatch] = useReducer(todoReducer, initialTodoState);
 
   const {
     todoList,
@@ -36,10 +36,6 @@ export default function TodosPage() {
 
   const debouncedFilterTerm = useDebounce(filterTerm, 300);
 
-  const invalidateCache = useCallback(() => {
-    dispatch({ type: TODO_ACTIONS.INVALIDATE_CACHE });
-  }, []);
-
   const fetchTodos = useCallback(async () => {
     dispatch({ type: TODO_ACTIONS.FETCH_START });
 
@@ -47,7 +43,7 @@ export default function TodosPage() {
       const paramsObject = {
         sortBy,
         sortDirection,
-          };
+      };
 
       if (debouncedFilterTerm) {
         paramsObject.find = debouncedFilterTerm;
@@ -81,7 +77,7 @@ export default function TodosPage() {
     } catch (error) {
       const isFilterError =
         debouncedFilterTerm ||
-        sortBy !== 'creationDate' ||
+        sortBy !== 'createdAt' ||
         sortDirection !== 'desc';
 
       dispatch({
@@ -112,19 +108,6 @@ export default function TodosPage() {
   };
 
   async function addTodo(todoTitle) {
-    const newTodo = {
-      id: Date.now(),
-      title: todoTitle,
-      isCompleted: false,
-    };
-
-    dispatch({
-      type: TODO_ACTIONS.ADD_TODO_START,
-      payload: {
-        todo: newTodo,
-      },
-    });
-
     try {
       const response = await fetch('/api/tasks', {
         method: 'POST',
@@ -143,23 +126,12 @@ export default function TodosPage() {
         throw new Error('Failed to add todo');
       }
 
-      const data = await response.json();
-      const savedTodo = data.task ?? data;
-
-      dispatch({
-        type: TODO_ACTIONS.ADD_TODO_SUCCESS,
-        payload: {
-          temporaryId: newTodo.id,
-          todo: savedTodo,
-        },
-      });
-
-      invalidateCache();
+      await fetchTodos();
     } catch (error) {
       dispatch({
         type: TODO_ACTIONS.ADD_TODO_ERROR,
         payload: {
-          temporaryId: newTodo.id,
+          temporaryId: Date.now(),
           message: error.message,
         },
       });
@@ -168,6 +140,10 @@ export default function TodosPage() {
 
   async function completeTodo(id) {
     const originalTodo = todoList.find((todo) => todo.id === id);
+
+    if (!originalTodo) {
+      return;
+    }
 
     dispatch({
       type: TODO_ACTIONS.COMPLETE_TODO_START,
@@ -178,17 +154,17 @@ export default function TodosPage() {
 
     try {
       const response = await fetch(`/api/tasks/${id}`, {
-  method: 'PATCH',
-  headers: {
-    'Content-Type': 'application/json',
-    'X-CSRF-TOKEN': token,
-  },
-  credentials: 'include',
-  body: JSON.stringify({
-    title: originalTodo.title,
-    isCompleted: true,
-  }),
-});
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': token,
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          title: originalTodo.title,
+          isCompleted: true,
+        }),
+      });
 
       if (!response.ok) {
         throw new Error('Failed to complete todo');
@@ -198,7 +174,7 @@ export default function TodosPage() {
         type: TODO_ACTIONS.COMPLETE_TODO_SUCCESS,
       });
 
-      invalidateCache();
+      await fetchTodos();
     } catch (error) {
       dispatch({
         type: TODO_ACTIONS.COMPLETE_TODO_ERROR,
@@ -214,6 +190,10 @@ export default function TodosPage() {
     const originalTodo = todoList.find(
       (todo) => todo.id === editedTodo.id
     );
+
+    if (!originalTodo) {
+      return;
+    }
 
     const updatedTodo = {
       ...originalTodo,
@@ -238,7 +218,6 @@ export default function TodosPage() {
         body: JSON.stringify({
           title: updatedTodo.title,
           isCompleted: updatedTodo.isCompleted,
-          createdAt: originalTodo.createdAt,
         }),
       });
 
@@ -250,7 +229,7 @@ export default function TodosPage() {
         type: TODO_ACTIONS.UPDATE_TODO_SUCCESS,
       });
 
-      invalidateCache();
+      await fetchTodos();
     } catch (error) {
       dispatch({
         type: TODO_ACTIONS.UPDATE_TODO_ERROR,
@@ -330,7 +309,9 @@ export default function TodosPage() {
           })
         }
       />
+
       <StatusFilter />
+
       <FilterInput
         filterTerm={filterTerm}
         onFilterChange={handleFilterChange}
@@ -344,7 +325,7 @@ export default function TodosPage() {
         onUpdateTodo={updateTodo}
         dataVersion={dataVersion}
         statusFilter={statusFilter}
-/>
+      />
     </>
   );
 }
