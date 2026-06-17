@@ -186,61 +186,62 @@ export default function TodosPage() {
     }
   }
 
-  async function updateTodo(editedTodo) {
-    const originalTodo = todoList.find(
-      (todo) => todo.id === editedTodo.id
-    );
+ async function updateTodo(editedTodo) {
+  const originalTodo = todoList.find(
+    (todo) => todo.id === editedTodo.id
+  );
 
-    if (!originalTodo) {
-      return;
-    }
-
-    const updatedTodo = {
-      ...originalTodo,
-      ...editedTodo,
-    };
-
-    dispatch({
-      type: TODO_ACTIONS.UPDATE_TODO_START,
-      payload: {
-        todo: updatedTodo,
-      },
-    });
-
-    try {
-      const response = await fetch(`/api/tasks/${editedTodo.id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': token,
-        },
-        credentials: 'include',
-        body: JSON.stringify({
-          title: updatedTodo.title,
-          isCompleted: updatedTodo.isCompleted,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to update todo');
-      }
-
-      dispatch({
-        type: TODO_ACTIONS.UPDATE_TODO_SUCCESS,
-      });
-
-      await fetchTodos();
-    } catch (error) {
-      dispatch({
-        type: TODO_ACTIONS.UPDATE_TODO_ERROR,
-        payload: {
-          originalTodo,
-          message: error.message,
-        },
-      });
-    }
+  if (!originalTodo) {
+    return;
   }
 
+  const updatedTodo = {
+    ...originalTodo,
+    ...editedTodo,
+  };
+
+  dispatch({
+    type: TODO_ACTIONS.UPDATE_TODO_START,
+    payload: {
+      todo: updatedTodo,
+    },
+  });
+
+  try {
+    const response = await fetch(`/api/tasks/${editedTodo.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': token,
+      },
+      credentials: 'include',
+      body: JSON.stringify({
+        title: updatedTodo.title,
+        isCompleted: updatedTodo.isCompleted,
+        createdAt: originalTodo.createdAt,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to update todo');
+    }
+
+    dispatch({
+      type: TODO_ACTIONS.UPDATE_TODO_SUCCESS,
+    });
+
+    await fetchTodos();
+  } catch (error) {
+    dispatch({
+      type: TODO_ACTIONS.UPDATE_TODO_ERROR,
+      payload: {
+        originalTodo,
+        message: error.message,
+      },
+    });
+  }
+}
+  
   return (
     <>
       {error && (
