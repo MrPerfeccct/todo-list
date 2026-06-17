@@ -1,21 +1,79 @@
-# Todo List
-A simple React application that displays a list of todo items.
+# Todo List Application
 
-## Installation
-Clone the repository and navigate into the project folder:
-git clone https://github.com/MrPerfeccct/todo-list.git
-**cd todo-list**
+## Overview
 
-Install the project dependencies:
-**npm install**
+A full-stack Todo List application built with React and Vite. The application allows users to manage tasks through a clean and responsive interface.
 
-## Run the development server
-Start the application:
-**npm run dev**
+## Live Demo
 
-In the terminal, you will see a local server address ***(usually something like http://localhost:5173/)***. Open it in your browser to view the project.
+https://todo-list-perfect3.vercel.app
+
+## GitHub Repository
+
+https://github.com/MrPerfeccct/todo-list
 
 ## Features
-* Built with React
-* Created using Vite
-* Displays a list of todos
+
+* User authentication
+* Create new tasks
+* Edit existing tasks
+* Mark tasks as completed
+* Delete tasks
+* Search and filter tasks
+* Sort tasks by title or creation date
+* Responsive design for desktop and mobile devices
+* Input validation and sanitization using DOMPurify
+
+## Technologies Used
+
+* React
+* React Router
+* Vite
+* JavaScript (ES6+)
+* CSS
+* DOMPurify
+* REST API
+
+## Installation
+
+Clone the repository:
+
+git clone https://github.com/MrPerfeccct/todo-list.git
+
+Navigate into the project:
+
+cd todo-list
+
+Install dependencies:
+
+npm install
+
+Start the development server:
+
+npm run dev
+
+Open the local URL displayed in the terminal.
+
+## Build for Production
+
+npm run build
+
+Preview production build:
+
+npm run preview
+
+## Design Decisions
+
+* Dark modern UI with responsive layout
+* Simple navigation using React Router
+* Reusable React components
+* Client-side validation for better user experience
+* Sanitized user input for improved security
+
+## Future Improvements
+
+* Dark/Light theme toggle
+* Task categories
+* Due dates
+* Drag and drop task organization
+* User profiles
