@@ -47,7 +47,7 @@ https://github.com/MrPerfeccct/todo-list
 
 ### Mobile
 
-![Mobile Screenshot](./screenshots/mobile.png)
+![Mobile Screenshot](./screenshots/Mobile.PNG)
 
 ## Installation
 
