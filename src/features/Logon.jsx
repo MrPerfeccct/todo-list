@@ -1,5 +1,9 @@
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext.jsx';
+import DOMPurify from 'dompurify';
+
+const cleanUsername = DOMPurify.sanitize(username.trim());
+const cleanPassword = DOMPurify.sanitize(password);
 
 export default function Logon() {
   const { login } = useAuth();
