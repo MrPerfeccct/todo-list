@@ -43,7 +43,7 @@ https://github.com/MrPerfeccct/todo-list
 
 ### Desktop
 
-![Desktop Screenshot](./screenshots/desktop.png)
+![Desktop Screenshot](./screenshots/Desktop.PNG)
 
 ### Mobile
 
